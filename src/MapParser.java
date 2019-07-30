@@ -2,11 +2,33 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.Arrays;
 
-public class MapParser {
+class MapParser {
 
     @Contract(pure = true)
     private boolean isDigit(char characterToBeChecked) {
         return characterToBeChecked >= '0' && characterToBeChecked <= '9';
+    }
+
+    int getMapXSize(String processedMoveString) {
+        int XSize = 0;
+        for (int i = 0; i < processedMoveString.length(); i++) {
+            if (processedMoveString.charAt(i) == '/') {
+                XSize = i;
+                break;
+            }
+        }
+        return XSize;
+    }
+
+
+    int getMapYSize(String processedMoveString) {
+        int YSize = 0;
+        for (int i = 0; i < processedMoveString.length(); i++) {
+            if (processedMoveString.charAt(i) == '/') {
+                YSize++;
+            }
+        }
+        return YSize + 1;
     }
 
     String ProcessThisMove(String move) {
@@ -61,29 +83,33 @@ public class MapParser {
             for (int j = 0; j < width; j++) {
 
                 //set borders
-                if (preprocessedMove.charAt(moveIndex) == 'o') {
-                    theMap[i][j] = 'o';
-                    moveIndex++;
-                }
+//                System.out.println(moveIndex);
+//                System.out.println(preprocessedMove);
+                if (moveIndex < preprocessedMove.length()) {
+                    if (preprocessedMove.charAt(moveIndex) == 'o') {
+                        theMap[i][j] = 'o';
+                        moveIndex++;
+                    }
 
-                //set other elements
-                else if (preprocessedMove.charAt(moveIndex) == 'r' || preprocessedMove.charAt(moveIndex) == 'R'
-                        || preprocessedMove.charAt(moveIndex) == 'b' || preprocessedMove.charAt(moveIndex) == 'B') {
-                    theMap[i][j] = preprocessedMove.charAt(moveIndex);
-                    moveIndex++;
-                }
+                    //set other elements
+                    else if (preprocessedMove.charAt(moveIndex) == 'r' || preprocessedMove.charAt(moveIndex) == 'R'
+                            || preprocessedMove.charAt(moveIndex) == 'b' || preprocessedMove.charAt(moveIndex) == 'B') {
+                        theMap[i][j] = preprocessedMove.charAt(moveIndex);
+                        moveIndex++;
+                    }
 
-                //set empty spaces
-                else if (preprocessedMove.charAt(moveIndex) == ' ') {
-                    theMap[i][j] = preprocessedMove.charAt(moveIndex);
-                    moveIndex++;
-                }
+                    //set empty spaces
+                    else if (preprocessedMove.charAt(moveIndex) == ' ') {
+                        theMap[i][j] = preprocessedMove.charAt(moveIndex);
+                        moveIndex++;
+                    }
 
-                //ignore '/'
-                else if (preprocessedMove.charAt(moveIndex) == '/') {
-                    moveIndex++;
+                    //ignore '/'
+                    else if (preprocessedMove.charAt(moveIndex) == '/') {
+                        moveIndex++;
 
-                    j--;
+                        j--;
+                    }
                 }
 
             }

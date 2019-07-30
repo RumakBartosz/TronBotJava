@@ -27,9 +27,7 @@ class MapParserTest {
         String parsed = mapParser.ProcessThisMove(move);
 
 
-        char[][] ThisMap = new char[12][12];
-
-        ThisMap = mapParser.parseTheMap(12, 12, parsed);
+        char[][] ThisMap = mapParser.parseTheMap(12, 12, parsed);
 
         char[][] ExpectedMap = {
                 {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},

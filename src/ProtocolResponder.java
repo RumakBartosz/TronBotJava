@@ -2,16 +2,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Scanner;
 
-public class ProtocolResponder {
+class ProtocolResponder {
 
-    private String move;
     private String color;
     private MapParser MainMapParser = new MapParser();
-    private MoveDecider MainMoveDecider = new MoveDecider();
 
-    public String getMove() {
-        return move;
-    }
+    private MoveDecider MainMoveDecider = null;
 
     private String getInputFromOutside() {
         Scanner sc = new Scanner(System.in);
@@ -19,7 +15,7 @@ public class ProtocolResponder {
         return sc.nextLine();
     }
 
-    public void Respond() throws UnsupportedOperationException {
+    void Respond() throws UnsupportedOperationException {
         String Message = getInputFromOutside();
 
         switch (Message) {
@@ -63,16 +59,21 @@ public class ProtocolResponder {
     }
 
     private void RespondToMoveMessage(@NotNull String Message) {
-        move = Message.substring(Message.indexOf(" ") + 1);
 
+        String move = Message.substring(Message.indexOf(" ") + 1);
         String processedMove = MainMapParser.ProcessThisMove(move);
-        char[][] ParsedMap = MainMapParser.parseTheMap(12, 12, processedMove);
+
+        int xSize = MainMapParser.getMapXSize(processedMove);
+        int ySize = MainMapParser.getMapYSize(processedMove);
+
+        char[][] ParsedMap = MainMapParser.parseTheMap(ySize, xSize, processedMove);
+
+        if (MainMoveDecider == null)
+            MainMoveDecider = new MoveDecider(ParsedMap, color);
 
         MainMoveDecider.setParsedMap(ParsedMap);
-        MainMoveDecider.setColor(color);
 
-        MainMapParser.ProcessThisMove(move);
-        String ChosenMove = MainMoveDecider.GiveMeANaiveMove();
+        String ChosenMove = MainMoveDecider.GiveMeARandomMove();
         System.out.println(ChosenMove);
     }
 }
