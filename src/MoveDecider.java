@@ -1,3 +1,5 @@
+//TODO: REFACTOR, whole object as a simple agent with naive and random move
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +39,6 @@ class MoveDecider {
                 }
     }
 
-
     private void retrieveXCoordinate() {
         for (char[] chars : ParsedMap)
             for (int j = 0; j < ParsedMap[0].length; j++)
@@ -53,7 +54,6 @@ class MoveDecider {
         else
             return "down";
     }
-
 
     String GiveMeARandomMove() {
         retrieveXCoordinate();

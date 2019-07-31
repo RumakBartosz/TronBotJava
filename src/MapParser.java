@@ -1,3 +1,5 @@
+//TODO: REFACTOR, consider matrix sizes, why are gets public
+
 import org.jetbrains.annotations.Contract;
 
 import java.util.Arrays;
@@ -19,7 +21,6 @@ class MapParser {
         }
         return XSize;
     }
-
 
     int getMapYSize(String processedMoveString) {
         int YSize = 0;
