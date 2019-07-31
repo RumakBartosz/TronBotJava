@@ -48,4 +48,49 @@ class MapParserTest {
         Assertions.assertArrayEquals(ExpectedMap, ThisMap);
 
     }
+
+    @Test
+    void universalSimpleBotTest() {
+        MapParser mapParser = new MapParser();
+
+        String move = "oooooooooooo/oR9o/o10o/o10o/o10o/o10o/o10o/o10o/o10o/o10o/o9Bo/oooooooooooo";
+        String parsed = mapParser.ProcessThisMove(move);
+
+        char[][] ParsedMap = mapParser.parseTheMap(12, 12, parsed);
+
+        MoveDecider RedMoveDecider = new MoveDecider(ParsedMap, "red");
+        MoveDecider BlueMoveDecider = new MoveDecider(ParsedMap, "blue");
+
+        String RedChosenMove = RedMoveDecider.GiveMeARandomMove();
+        String BlueChosenMove = BlueMoveDecider.GiveMeARandomMove();
+
+        boolean CorrectRedMove = (RedChosenMove.equals("right") || RedChosenMove.equals("down"));
+        boolean CorrectBlueMove = (BlueChosenMove.equals("up") || BlueChosenMove.equals("left"));
+
+        Assertions.assertTrue(CorrectBlueMove);
+        Assertions.assertTrue(CorrectRedMove);
+    }
+
+
+    @Test
+    void universalOneMoveSimpleBotTest() {
+        MapParser mapParser = new MapParser();
+
+        String move = "ooooo/oR1Bo/ooooo";
+        String parsed = mapParser.ProcessThisMove(move);
+
+        char[][] ParsedMap = mapParser.parseTheMap(5, 5, parsed);
+
+        MoveDecider RedMoveDecider = new MoveDecider(ParsedMap, "red");
+        MoveDecider BlueMoveDecider = new MoveDecider(ParsedMap, "blue");
+
+        String RedChosenMove = RedMoveDecider.GiveMeARandomMove();
+        String BlueChosenMove = BlueMoveDecider.GiveMeARandomMove();
+
+        boolean CorrectRedMove = RedChosenMove.equals("right");
+        boolean CorrectBlueMove = BlueChosenMove.equals("left");
+
+        Assertions.assertTrue(CorrectBlueMove);
+        Assertions.assertTrue(CorrectRedMove);
+    }
 }
