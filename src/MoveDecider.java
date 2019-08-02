@@ -9,69 +9,69 @@ import java.util.Random;
 
 class MoveDecider {
 
-    private char[][] ParsedMap;
-    private String Color;
-    private char TronHead;
-    private int XCoordinate;
-    private int YCoordinate;
+    private char[][] parsedMap;
+    private String color;
+    private char tronHead;
+    private int xCoordinate;
+    private int yCoordinate;
 
     @Contract(pure = true)
     MoveDecider(char[][] parsedMap, @NotNull String color) {
-        ParsedMap = parsedMap;
-        Color = color;
+        this.parsedMap = parsedMap;
+        this.color = color;
 
         if (color.equals("red"))
-            TronHead = 'R';
+            tronHead = 'R';
         else
-            TronHead = 'B';
+            tronHead = 'B';
     }
 
     void setParsedMap(char[][] parsedMap) {
-        ParsedMap = parsedMap;
+        this.parsedMap = parsedMap;
     }
 
     private void retrieveYCoordinate() {
-        for (int i = 0; i < ParsedMap.length; i++)
-            for (int j = 0; j < ParsedMap[0].length; j++)
-                if (ParsedMap[i][j] == TronHead) {
-                    YCoordinate = i;
+        for (int i = 0; i < parsedMap.length; i++)
+            for (int j = 0; j < parsedMap[0].length; j++)
+                if (parsedMap[i][j] == tronHead) {
+                    yCoordinate = i;
                     return;
                 }
     }
 
     private void retrieveXCoordinate() {
-        for (char[] chars : ParsedMap)
-            for (int j = 0; j < ParsedMap[0].length; j++)
-                if (chars[j] == TronHead) {
-                    XCoordinate = j;
+        for (char[] chars : parsedMap)
+            for (int j = 0; j < parsedMap[0].length; j++)
+                if (chars[j] == tronHead) {
+                    xCoordinate = j;
                     return;
                 }
     }
 
-    String GiveMeANaiveMove() {
-        if (Color != null && Color.equals("red"))
+    String giveMeANaiveMove() {
+        if (color != null && color.equals("red"))
             return "up";
         else
             return "down";
     }
 
-    String GiveMeARandomMove() {
+    String giveMeARandomMove() {
         retrieveXCoordinate();
         retrieveYCoordinate();
 
         List<Integer> moveList = new ArrayList<>();
 
         //UP, DOWN, LEFT, RIGHT
-        if (ParsedMap[YCoordinate - 1][XCoordinate] == ' ')
+        if (parsedMap[yCoordinate - 1][xCoordinate] == ' ')
             moveList.add(1);
 
-        if (ParsedMap[YCoordinate + 1][XCoordinate] == ' ')
+        if (parsedMap[yCoordinate + 1][xCoordinate] == ' ')
             moveList.add(2);
 
-        if (ParsedMap[YCoordinate][XCoordinate - 1] == ' ')
+        if (parsedMap[yCoordinate][xCoordinate - 1] == ' ')
             moveList.add(3);
 
-        if (ParsedMap[YCoordinate][XCoordinate + 1] == ' ')
+        if (parsedMap[yCoordinate][xCoordinate + 1] == ' ')
             moveList.add(4);
 
         int rnd = new Random().nextInt(moveList.size());

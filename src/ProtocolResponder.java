@@ -7,9 +7,9 @@ import java.util.Scanner;
 class ProtocolResponder {
 
     private String color;
-    private MapParser MainMapParser = new MapParser();
+    private MapParser mainMapParser = new MapParser();
 
-    private MoveDecider MainMoveDecider = null;
+    private MoveDecider mainMoveDecider = null;
 
     private String getInputFromOutside() {
         Scanner sc = new Scanner(System.in);
@@ -17,65 +17,65 @@ class ProtocolResponder {
         return sc.nextLine();
     }
 
-    void Respond() throws UnsupportedOperationException {
-        String Message = getInputFromOutside();
+    void respond() {
+        String message = getInputFromOutside();
 
-        switch (Message) {
+        switch (message) {
             case "tbi":
-                RespondToInitialMessage(Message);
+                respondToInitialMessage(message);
                 break;
             case "tbi v1":
-                RespondToVersionMessage(Message);
+                respondToVersionMessage(message);
                 break;
             case "color red":
             case "color blue":
-                RespondToColorMessage(Message);
+                respondToColorMessage(message);
                 break;
             default:
-                if (Message.matches("move (.*)")) {
-                    RespondToMoveMessage(Message);
+                if (message.matches("move (.*)")) {
+                    respondToMoveMessage(message);
                 } else {
-                    throw new UnsupportedOperationException(Message + "is not a valid message");
+                    throw new UnsupportedOperationException(message + "is not a valid message");
                 }
 
         }
 
     }
 
-    private void RespondToInitialMessage(@NotNull String Message) {
-        System.out.println(Message + " ok");
+    private void respondToInitialMessage(@NotNull String message) {
+        System.out.println(message + " ok");
     }
 
-    private void RespondToVersionMessage(@NotNull String Message) {
-        System.out.println(Message + " ok");
+    private void respondToVersionMessage(@NotNull String message) {
+        System.out.println(message + " ok");
     }
 
-    private void RespondToColorMessage(@NotNull String Message) {
+    private void respondToColorMessage(@NotNull String message) {
 
-        color = Message.substring(Message.indexOf(" ") + 1);
+        color = message.substring(message.indexOf(' ') + 1);
 
         String regex = "(blue|red)";
-        Message = Message.replaceAll(regex, "");
+        message = message.replaceAll(regex, "");
 
-        System.out.println(Message + "ok");
+        System.out.println(message + "ok");
     }
 
-    private void RespondToMoveMessage(@NotNull String Message) {
+    private void respondToMoveMessage(@NotNull String message) {
 
-        String move = Message.substring(Message.indexOf(" ") + 1);
-        String processedMove = MainMapParser.ProcessThisMove(move);
+        String move = message.substring(message.indexOf(' ') + 1);
+        String processedMove = mainMapParser.processThisMove(move);
 
-        int xSize = MainMapParser.getMapXSize(processedMove);
-        int ySize = MainMapParser.getMapYSize(processedMove);
+        int xSize = mainMapParser.getMapXSize(processedMove);
+        int ySize = mainMapParser.getMapYSize(processedMove);
 
-        char[][] ParsedMap = MainMapParser.parseTheMap(ySize, xSize, processedMove);
+        char[][] parsedMap = mainMapParser.parseTheMap(ySize, xSize, processedMove);
 
-        if (MainMoveDecider == null)
-            MainMoveDecider = new MoveDecider(ParsedMap, color);
+        if (mainMoveDecider == null)
+            mainMoveDecider = new MoveDecider(parsedMap, color);
 
-        MainMoveDecider.setParsedMap(ParsedMap);
+        mainMoveDecider.setParsedMap(parsedMap);
 
-        String ChosenMove = MainMoveDecider.GiveMeARandomMove();
-        System.out.println(ChosenMove);
+        String chosenMove = mainMoveDecider.giveMeARandomMove();
+        System.out.println(chosenMove);
     }
 }

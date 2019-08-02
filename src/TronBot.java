@@ -2,75 +2,75 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TronBot {
-    private int MyXCoordinate;
-    private int MyYCoordinate;
-    private char MyHead;
+    private int myXCoordinate;
+    private int myYCoordinate;
+    private char myHead;
 
-    private int EnemyXCoordinate;
-    private int EnemyYCoordinate;
-    private char EnemyHead;
-    private char[][] CurrentParsedMap;
+    private int enemyXCoordinate;
+    private int enemyYCoordinate;
+    private char enemyHead;
+    private char[][] currentParsedMap;
 
     TronBot(String color) {
         if (color.equals("red")) {
-            MyHead = 'R';
-            EnemyHead = 'B';
+            myHead = 'R';
+            enemyHead = 'B';
         } else {
-            MyHead = 'B';
-            EnemyHead = 'R';
+            myHead = 'B';
+            enemyHead = 'R';
         }
     }
 
     public char[][] getCurrentParsedMap() {
-        return CurrentParsedMap;
+        return currentParsedMap;
     }
 
     public void setCurrentParsedMap(char[][] currentParsedMap) {
-        CurrentParsedMap = currentParsedMap;
+        this.currentParsedMap = currentParsedMap;
     }
 
     private void retrieveMyYCoordinate() {
-        for (int i = 0; i < CurrentParsedMap.length; i++)
-            for (int j = 0; j < CurrentParsedMap[0].length; j++)
-                if (CurrentParsedMap[i][j] == MyHead) {
-                    MyYCoordinate = i;
+        for (int i = 0; i < currentParsedMap.length; i++)
+            for (int j = 0; j < currentParsedMap[0].length; j++)
+                if (currentParsedMap[i][j] == myHead) {
+                    myYCoordinate = i;
                     return;
                 }
     }
 
     private void retrieveMyXCoordinate() {
-        for (char[] chars : CurrentParsedMap)
-            for (int j = 0; j < CurrentParsedMap[0].length; j++)
-                if (chars[j] == MyHead) {
-                    MyXCoordinate = j;
+        for (char[] chars : currentParsedMap)
+            for (int j = 0; j < currentParsedMap[0].length; j++)
+                if (chars[j] == myHead) {
+                    myXCoordinate = j;
                     return;
                 }
     }
 
     private void retrieveEnemyYCoordinate() {
-        for (int i = 0; i < CurrentParsedMap.length; i++)
-            for (int j = 0; j < CurrentParsedMap[0].length; j++)
-                if (CurrentParsedMap[i][j] == EnemyHead) {
-                    EnemyYCoordinate = i;
+        for (int i = 0; i < currentParsedMap.length; i++)
+            for (int j = 0; j < currentParsedMap[0].length; j++)
+                if (currentParsedMap[i][j] == enemyHead) {
+                    enemyYCoordinate = i;
                     return;
                 }
     }
 
     private void retrieveEnemyXCoordinate() {
-        for (char[] chars : CurrentParsedMap)
-            for (int j = 0; j < CurrentParsedMap[0].length; j++)
-                if (chars[j] == EnemyHead) {
-                    EnemyXCoordinate = j;
+        for (char[] chars : currentParsedMap)
+            for (int j = 0; j < currentParsedMap[0].length; j++)
+                if (chars[j] == enemyHead) {
+                    enemyXCoordinate = j;
                     return;
                 }
     }
 
 
-    List<String> getEveryAvailableMove(char[][] Map) {
+    List<String> getEveryAvailableMove(char[][] map) {
         return new ArrayList<>();
     }
 
-    int getEvaluationOfPosition(char[][] Map) {
+    int getEvaluationOfPosition(char[][] map) {
         return -1000;
     }
 

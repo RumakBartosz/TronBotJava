@@ -12,27 +12,27 @@ class MapParser {
     }
 
     int getMapXSize(String processedMoveString) {
-        int XSize = 0;
+        int xSize = 0;
         for (int i = 0; i < processedMoveString.length(); i++) {
             if (processedMoveString.charAt(i) == '/') {
-                XSize = i;
+                xSize = i;
                 break;
             }
         }
-        return XSize;
+        return xSize;
     }
 
     int getMapYSize(String processedMoveString) {
-        int YSize = 0;
+        int ySize = 0;
         for (int i = 0; i < processedMoveString.length(); i++) {
             if (processedMoveString.charAt(i) == '/') {
-                YSize++;
+                ySize++;
             }
         }
-        return YSize + 1;
+        return ySize + 1;
     }
 
-    String ProcessThisMove(String move) {
+    String processThisMove(String move) {
 
         StringBuilder changedString = new StringBuilder(move);
 
@@ -83,9 +83,6 @@ class MapParser {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
 
-                //set borders
-//                System.out.println(moveIndex);
-//                System.out.println(preprocessedMove);
                 if (moveIndex < preprocessedMove.length()) {
                     if (preprocessedMove.charAt(moveIndex) == 'o') {
                         theMap[i][j] = 'o';
@@ -94,16 +91,12 @@ class MapParser {
 
                     //set other elements
                     else if (preprocessedMove.charAt(moveIndex) == 'r' || preprocessedMove.charAt(moveIndex) == 'R'
-                            || preprocessedMove.charAt(moveIndex) == 'b' || preprocessedMove.charAt(moveIndex) == 'B') {
+                            || preprocessedMove.charAt(moveIndex) == 'b' || preprocessedMove.charAt(moveIndex) == 'B'
+                            || preprocessedMove.charAt(moveIndex) == ' ') {
                         theMap[i][j] = preprocessedMove.charAt(moveIndex);
                         moveIndex++;
                     }
 
-                    //set empty spaces
-                    else if (preprocessedMove.charAt(moveIndex) == ' ') {
-                        theMap[i][j] = preprocessedMove.charAt(moveIndex);
-                        moveIndex++;
-                    }
 
                     //ignore '/'
                     else if (preprocessedMove.charAt(moveIndex) == '/') {

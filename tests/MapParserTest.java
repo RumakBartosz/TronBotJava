@@ -11,7 +11,7 @@ class MapParserTest {
                 "o10o/o10o/o10o/o10o/o10o/o9Ro/oooooooooooo";
 
 
-        String parsed = mapParser.ProcessThisMove(move);
+        String parsed = mapParser.processThisMove(move);
 
         Assertions.assertEquals("oooooooooooo/oR         o/o          o/o          o/o          o/" +
                 "o          o/o          o/o          o/o          o/o          o/o         Ro/oooooooooooo", parsed);
@@ -24,7 +24,7 @@ class MapParserTest {
         MapParser mapParser = new MapParser();
 
         String move = "oooooooooooo/oR9o/o10o/o10o/o10o/o10o/o10o/o10o/o10o/o10o/o9Bo/oooooooooooo";
-        String parsed = mapParser.ProcessThisMove(move);
+        String parsed = mapParser.processThisMove(move);
 
 
         char[][] ThisMap = mapParser.parseTheMap(12, 12, parsed);
@@ -54,15 +54,15 @@ class MapParserTest {
         MapParser mapParser = new MapParser();
 
         String move = "oooooooooooo/oR9o/o10o/o10o/o10o/o10o/o10o/o10o/o10o/o10o/o9Bo/oooooooooooo";
-        String parsed = mapParser.ProcessThisMove(move);
+        String parsed = mapParser.processThisMove(move);
 
         char[][] ParsedMap = mapParser.parseTheMap(12, 12, parsed);
 
         MoveDecider RedMoveDecider = new MoveDecider(ParsedMap, "red");
         MoveDecider BlueMoveDecider = new MoveDecider(ParsedMap, "blue");
 
-        String RedChosenMove = RedMoveDecider.GiveMeARandomMove();
-        String BlueChosenMove = BlueMoveDecider.GiveMeARandomMove();
+        String RedChosenMove = RedMoveDecider.giveMeARandomMove();
+        String BlueChosenMove = BlueMoveDecider.giveMeARandomMove();
 
         boolean CorrectRedMove = (RedChosenMove.equals("right") || RedChosenMove.equals("down"));
         boolean CorrectBlueMove = (BlueChosenMove.equals("up") || BlueChosenMove.equals("left"));
@@ -77,15 +77,15 @@ class MapParserTest {
         MapParser mapParser = new MapParser();
 
         String move = "ooooo/oR1Bo/ooooo";
-        String parsed = mapParser.ProcessThisMove(move);
+        String parsed = mapParser.processThisMove(move);
 
         char[][] ParsedMap = mapParser.parseTheMap(5, 5, parsed);
 
         MoveDecider RedMoveDecider = new MoveDecider(ParsedMap, "red");
         MoveDecider BlueMoveDecider = new MoveDecider(ParsedMap, "blue");
 
-        String RedChosenMove = RedMoveDecider.GiveMeARandomMove();
-        String BlueChosenMove = BlueMoveDecider.GiveMeARandomMove();
+        String RedChosenMove = RedMoveDecider.giveMeARandomMove();
+        String BlueChosenMove = BlueMoveDecider.giveMeARandomMove();
 
         boolean CorrectRedMove = RedChosenMove.equals("right");
         boolean CorrectBlueMove = BlueChosenMove.equals("left");
