@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import tron_bot.MapParser;
+import tron_bot.MoveDecider;
 
 class MapParserTest {
 

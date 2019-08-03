@@ -1,4 +1,4 @@
-//TODO: REFACTOR, whole object as a simple agent with naive and random move
+package tron_bot;//TODO: REFACTOR, whole object as a simple agent with naive and random move
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-class MoveDecider {
+public class MoveDecider {
 
     private char[][] parsedMap;
     private String color;
@@ -16,7 +16,7 @@ class MoveDecider {
     private int yCoordinate;
 
     @Contract(pure = true)
-    MoveDecider(char[][] parsedMap, @NotNull String color) {
+    public MoveDecider(char[][] parsedMap, @NotNull String color) {
         this.parsedMap = parsedMap;
         this.color = color;
 
@@ -55,7 +55,7 @@ class MoveDecider {
             return "down";
     }
 
-    String giveMeARandomMove() {
+    public String giveMeARandomMove() {
         retrieveXCoordinate();
         retrieveYCoordinate();
 

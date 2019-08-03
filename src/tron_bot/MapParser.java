@@ -1,10 +1,10 @@
-//TODO: REFACTOR, consider matrix sizes, why are gets public
+package tron_bot;//TODO: REFACTOR, consider matrix sizes, why are gets public
 
 import org.jetbrains.annotations.Contract;
 
 import java.util.Arrays;
 
-class MapParser {
+public class MapParser {
 
     @Contract(pure = true)
     private boolean isDigit(char characterToBeChecked) {
@@ -32,7 +32,7 @@ class MapParser {
         return ySize + 1;
     }
 
-    String processThisMove(String move) {
+    public String processThisMove(String move) {
 
         StringBuilder changedString = new StringBuilder(move);
 
@@ -73,7 +73,7 @@ class MapParser {
         return changedString.toString();
     }
 
-    char[][] parseTheMap(int height, int width, String preprocessedMove) {
+    public char[][] parseTheMap(int height, int width, String preprocessedMove) {
 
         char[][] theMap = new char[height][width];
 

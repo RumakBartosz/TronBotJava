@@ -1,24 +1,16 @@
+package tron_bot;
 //TODO: REFACTOR respondToMoveMessage()
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Scanner;
-
-class ProtocolResponder {
+public class ProtocolResponder {
 
     private String color;
     private MapParser mainMapParser = new MapParser();
 
     private MoveDecider mainMoveDecider = null;
 
-    private String getInputFromOutside() {
-        Scanner sc = new Scanner(System.in);
-
-        return sc.nextLine();
-    }
-
-    void respond() {
-        String message = getInputFromOutside();
+    void respond(String message) {
 
         switch (message) {
             case "tbi":
