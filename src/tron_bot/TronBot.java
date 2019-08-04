@@ -1,5 +1,7 @@
 package tron_bot;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,20 +69,59 @@ public class TronBot {
                 }
     }
 
+    //Check only our available moves, and decide as a mini max
+    List<String> getOurEveryAvailableMove(@NotNull char[][] map) {
+        List<String> moveList = new ArrayList<>();
 
-    List<String> getEveryAvailableMove(char[][] map) {
-        return new ArrayList<>();
+        if (map[myYCoordinate - 1][myXCoordinate] == ' ')
+            moveList.add("up");
+
+        if (map[myYCoordinate + 1][myXCoordinate] == ' ')
+            moveList.add("down");
+
+        if (map[myYCoordinate][myXCoordinate - 1] == ' ')
+            moveList.add("left");
+
+        if (map[myYCoordinate][myXCoordinate + 1] == ' ')
+            moveList.add("right");
+        return moveList;
+    }
+
+    List<String> getTheirsEveryAvailableMove(@NotNull char[][] map) {
+        List<String> moveList = new ArrayList<>();
+
+        if (map[enemyYCoordinate - 1][enemyXCoordinate] == ' ')
+            moveList.add("up");
+
+        if (map[enemyYCoordinate + 1][enemyXCoordinate] == ' ')
+            moveList.add("down");
+
+        if (map[enemyYCoordinate][enemyXCoordinate - 1] == ' ')
+            moveList.add("left");
+
+        if (map[enemyYCoordinate][enemyXCoordinate + 1] == ' ')
+            moveList.add("right");
+        return moveList;
     }
 
     int getEvaluationOfPosition(char[][] map) {
-        return -1000;
+        //when map is open, prefer going closer to other bot, as it makes sure that you'll cut as much as you can
+        //when map is closed, count difference in the number of available places
+        //range: [-100, 100]
+        return -100;
     }
 
     char[][] getMapAfterMove(String move, char[][] mapToMakeMoveOn) {
+        //return mapToMakeMoveOn, for move String with value either "up" or "down" or "left" or "right"
+        //where you made according move
+        //assume move is correct, as this operation takes considerable amount of time in MiniMax
         return new char[][]{{}};
     }
 
     char[][] getMapBeforeMove(String lastMove, char[][] mapToTakeMoveFrom) {
+        //return mapToTakeMoveFrom, for lastMove String with value either "up" or "down" or "left" or "right"
+        //where you've taken back according move
+        //assume move is correct, as this operation takes considerable amount of time in MiniMax
         return new char[][]{{}};
     }
 }

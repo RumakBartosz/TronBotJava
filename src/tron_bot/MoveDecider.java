@@ -1,4 +1,5 @@
-package tron_bot;//TODO: REFACTOR, whole object as a simple agent with naive and random move
+package tron_bot;
+//TODO: REFACTOR, whole object as a simple agent with naive and random move
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
