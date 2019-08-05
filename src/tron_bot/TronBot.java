@@ -1,4 +1,5 @@
 package tron_bot;
+//TODO: add cognition of whose turn it is as a boolean value, cojoin functions as a violation of DRY
 
 import org.jetbrains.annotations.NotNull;
 
@@ -111,17 +112,127 @@ public class TronBot {
         return -100;
     }
 
-    char[][] getMapAfterMove(String move, char[][] mapToMakeMoveOn) {
-        //return mapToMakeMoveOn, for move String with value either "up" or "down" or "left" or "right"
-        //where you made according move
-        //assume move is correct, as this operation takes considerable amount of time in MiniMax
-        return new char[][]{{}};
+    char[][] getMapAfterOurMove(@NotNull char[][] mapToMakeMoveOn, @NotNull String move) {
+        ///return mapToMakeMoveOn, for move String with value either "up" or "down" or "left" or "right"
+        ///where you made according move
+        ///assume move is correct, as this operation takes considerable amount of time in MiniMax
+
+        //SRP broken?
+
+        mapToMakeMoveOn[myYCoordinate][myXCoordinate] =
+                Character.toLowerCase(mapToMakeMoveOn[myYCoordinate][myXCoordinate]);
+
+        switch (move) {
+            case "up":
+                mapToMakeMoveOn[myYCoordinate - 1][myXCoordinate] = myHead;
+                myYCoordinate -= 1;
+                break;
+            case "down":
+                mapToMakeMoveOn[myYCoordinate + 1][myXCoordinate] = myHead;
+                myYCoordinate += 1;
+                break;
+            case "left":
+                mapToMakeMoveOn[myYCoordinate][myXCoordinate - 1] = myHead;
+                myXCoordinate -= 1;
+                break;
+            case "right":
+                mapToMakeMoveOn[myYCoordinate][myXCoordinate + 1] = myHead;
+                myXCoordinate += 1;
+                break;
+            default:
+                System.out.println("Error, wrong move on getMapAfterOurMove()");
+        }
+        return mapToMakeMoveOn;
     }
 
-    char[][] getMapBeforeMove(String lastMove, char[][] mapToTakeMoveFrom) {
+    char[][] getMapAfterTheirsMove(@NotNull char[][] mapToMakeMoveOn, @NotNull String move) {
+        ///return mapToMakeMoveOn, for move String with value either "up" or "down" or "left" or "right"
+        ///where you made according move
+        ///assume move is correct, as this operation takes considerable amount of time in MiniMax
+
+        mapToMakeMoveOn[myYCoordinate][myXCoordinate] =
+                Character.toLowerCase(mapToMakeMoveOn[myYCoordinate][myXCoordinate]);
+
+        switch (move) {
+            case "up":
+                mapToMakeMoveOn[myYCoordinate - 1][myXCoordinate] = enemyHead;
+                myYCoordinate -= 1;
+                break;
+            case "down":
+                mapToMakeMoveOn[myYCoordinate + 1][myXCoordinate] = enemyHead;
+                myYCoordinate += 1;
+                break;
+            case "left":
+                mapToMakeMoveOn[myYCoordinate][myXCoordinate - 1] = enemyHead;
+                myXCoordinate -= 1;
+                break;
+            case "right":
+                mapToMakeMoveOn[myYCoordinate][myXCoordinate + 1] = enemyHead;
+                myXCoordinate += 1;
+                break;
+            default:
+                System.out.println("Error, wrong move on getMapAfterOurMove()");
+        }
+        return mapToMakeMoveOn;
+    }
+
+    char[][] getMapBeforeOurMove(@NotNull String lastMove, @NotNull char[][] mapToTakeMoveFrom) {
         //return mapToTakeMoveFrom, for lastMove String with value either "up" or "down" or "left" or "right"
         //where you've taken back according move
         //assume move is correct, as this operation takes considerable amount of time in MiniMax
-        return new char[][]{{}};
+
+        mapToTakeMoveFrom[myYCoordinate][myXCoordinate] = ' ';
+
+        switch (lastMove) {
+            case "up":
+                mapToTakeMoveFrom[myYCoordinate + 1][myXCoordinate] = myHead;
+                myYCoordinate += 1;
+                break;
+            case "down":
+                mapToTakeMoveFrom[myYCoordinate - 1][myXCoordinate] = myHead;
+                myYCoordinate -= 1;
+                break;
+            case "left":
+                mapToTakeMoveFrom[myYCoordinate][myXCoordinate + 1] = myHead;
+                myXCoordinate += 1;
+                break;
+            case "right":
+                mapToTakeMoveFrom[myYCoordinate][myXCoordinate - 1] = myHead;
+                myXCoordinate -= 1;
+                break;
+            default:
+                System.out.println("Error, wrong move on getMapAfterOurMove()");
+        }
+        return mapToTakeMoveFrom;
+    }
+
+    char[][] getMapBeforeTheirsMove(@NotNull String lastMove, @NotNull char[][] mapToTakeMoveFrom) {
+        //return mapToTakeMoveFrom, for lastMove String with value either "up" or "down" or "left" or "right"
+        //where you've taken back according move
+        //assume move is correct, as this operation takes considerable amount of time in MiniMax
+
+        mapToTakeMoveFrom[myYCoordinate][myXCoordinate] = ' ';
+
+        switch (lastMove) {
+            case "up":
+                mapToTakeMoveFrom[myYCoordinate + 1][myXCoordinate] = enemyHead;
+                myYCoordinate += 1;
+                break;
+            case "down":
+                mapToTakeMoveFrom[myYCoordinate - 1][myXCoordinate] = enemyHead;
+                myYCoordinate -= 1;
+                break;
+            case "left":
+                mapToTakeMoveFrom[myYCoordinate][myXCoordinate + 1] = enemyHead;
+                myXCoordinate += 1;
+                break;
+            case "right":
+                mapToTakeMoveFrom[myYCoordinate][myXCoordinate - 1] = enemyHead;
+                myXCoordinate -= 1;
+                break;
+            default:
+                System.out.println("Error, wrong move on getMapAfterOurMove()");
+        }
+        return mapToTakeMoveFrom;
     }
 }
