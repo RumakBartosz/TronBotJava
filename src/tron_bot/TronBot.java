@@ -1,6 +1,8 @@
 package tron_bot;
 //TODO: add cognition of whose turn it is as a boolean value, cojoin functions as a violation of DRY
+//TODO: add tests to every function
 
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -16,7 +18,8 @@ public class TronBot {
     private char enemyHead;
     private char[][] currentParsedMap;
 
-    TronBot(String color) {
+    @Contract(pure = true)
+    TronBot(@NotNull String color) {
         if (color.equals("red")) {
             myHead = 'R';
             enemyHead = 'B';
@@ -234,5 +237,49 @@ public class TronBot {
                 System.out.println("Error, wrong move on getMapAfterOurMove()");
         }
         return mapToTakeMoveFrom;
+    }
+
+    boolean isTheGameOver() {
+        return true;
+    }
+
+    int maximize(int ply) {
+        ///function returns best value of an evaluation in the game tree
+        ///of ply depth
+
+        if (ply == 0 || isTheGameOver())
+            return getEvaluationOfPosition(currentParsedMap);
+
+        int best = -1000;
+
+        List<String> whichMovesArePossible = getOurEveryAvailableMove(currentParsedMap);
+
+        for (String currentMove : whichMovesArePossible) {
+            //makeMove from a currentMove
+            //minimize(ply - 1)
+            //takeBackMove from a currentMove
+            //if minimize(ply - 1) better than move, change value of best
+        }
+
+        return best;
+
+    }
+
+    String whichMoveShallITake(int ply) {
+        String bestMove = "up";
+        int bestValue = -1000;
+
+        List<String> whichMovesArePossible = getOurEveryAvailableMove(currentParsedMap);
+        //if ply%2 == 0 whichMovesArePossible = getTheirsAvailableMove(currentParsedMap); ?
+
+        for (String move : whichMovesArePossible) {
+            //makeMove from a currentMove
+            //maximize(ply)
+            //takeBackMove from a currentMove
+            //if maximize(ply) better than move, change value of bestValue
+            //  and move = bestMove
+
+        }
+        return bestMove;
     }
 }
