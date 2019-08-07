@@ -1,6 +1,7 @@
 package tron_bot;
 //TODO: add cognition of whose turn it is as a boolean value, cojoin functions as a violation of DRY
 //TODO: add tests to every function
+//TODO: change currentParsedMap to ,,mapIAmAwareOf'' -- global map state instead of current
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -243,33 +244,68 @@ public class TronBot {
         return true;
     }
 
-    int maximize(int ply) {
+    int maximize(int ply, char[][] fromWhatMap) {
         ///function returns best value of an evaluation in the game tree
         ///of ply depth
 
         if (ply == 0 || isTheGameOver())
-            return getEvaluationOfPosition(currentParsedMap);
+            return getEvaluationOfPosition(fromWhatMap);
 
         int best = -1000;
 
-        List<String> whichMovesArePossible = getOurEveryAvailableMove(currentParsedMap);
+        List<String> whichMovesArePossible = getOurEveryAvailableMove(fromWhatMap);
 
         for (String currentMove : whichMovesArePossible) {
             //makeMove from a currentMove
-            //minimize(ply - 1)
-            //takeBackMove from a currentMove
+            //minimize(ply - 1, fromWhatMap)
+            // ~takeBackMove from a currentMove~ -- no global map state, so we don't take back
             //if minimize(ply - 1) better than move, change value of best
+            char[][] nextMapState = getMapAfterOurMove(fromWhatMap, currentMove);
+            int current = minimize(ply - 1, nextMapState);
+            if (current > best)
+                best = current;
         }
 
         return best;
 
     }
 
-    String whichMoveShallITake(int ply) {
+    int minimize(int ply, char[][] fromWhatMap) {
+        ///function returns best value of an evaluation in the game tree
+        ///of ply depth
+
+        int worst = 1000;
+
+        if (ply == 0 || isTheGameOver())
+            return getEvaluationOfPosition(fromWhatMap);
+
+        List<String> whichMovesArePossible = getTheirsEveryAvailableMove(fromWhatMap);
+
+        for (String currentMove : whichMovesArePossible) {
+            //makeMove from a currentMove
+            //minimize(ply - 1, fromWhatMap)
+            // ~takeBackMove from a currentMove~ -- no global map state, so we don't take back
+            //if minimize(ply - 1) better than move, change value of best
+            char[][] nextMapState = getMapAfterOurMove(fromWhatMap, currentMove);
+            int current = maximize(ply - 1, nextMapState);
+            if (current < worst)
+                worst = current;
+        }
+
+        return worst;
+    }
+
+    String whichMoveShallITake(int ply, char[][] fromWhatMap) {
         String bestMove = "up";
         int bestValue = -1000;
 
-        List<String> whichMovesArePossible = getOurEveryAvailableMove(currentParsedMap);
+        List<String> whichMovesArePossible;
+
+        if (ply % 2 == 0) {
+            whichMovesArePossible = getOurEveryAvailableMove(fromWhatMap);
+        } else {
+            whichMovesArePossible = getTheirsEveryAvailableMove(fromWhatMap);
+        }
         //if ply%2 == 0 whichMovesArePossible = getTheirsAvailableMove(currentParsedMap); ?
 
         for (String move : whichMovesArePossible) {
@@ -279,6 +315,12 @@ public class TronBot {
             //if maximize(ply) better than move, change value of bestValue
             //  and move = bestMove
 
+            char[][] nextMapState = getMapAfterOurMove(fromWhatMap, move);
+            int current = minimize(ply - 1, nextMapState);
+            if (current > bestValue) {
+                bestValue = current;
+                bestMove = move;
+            }
         }
         return bestMove;
     }
