@@ -30,15 +30,11 @@ public class TronBot {
         }
     }
 
-    public char[][] getCurrentParsedMap() {
-        return currentParsedMap;
-    }
-
-    public void setCurrentParsedMap(char[][] currentParsedMap) {
+    void setCurrentParsedMap(char[][] currentParsedMap) {
         this.currentParsedMap = currentParsedMap;
     }
 
-    private void retrieveMyYCoordinate() {
+    public void retrieveMyYCoordinate() {
         for (int i = 0; i < currentParsedMap.length; i++)
             for (int j = 0; j < currentParsedMap[0].length; j++)
                 if (currentParsedMap[i][j] == myHead) {
@@ -47,7 +43,7 @@ public class TronBot {
                 }
     }
 
-    private void retrieveMyXCoordinate() {
+    public void retrieveMyXCoordinate() {
         for (char[] chars : currentParsedMap)
             for (int j = 0; j < currentParsedMap[0].length; j++)
                 if (chars[j] == myHead) {
@@ -56,7 +52,7 @@ public class TronBot {
                 }
     }
 
-    private void retrieveEnemyYCoordinate() {
+    public void retrieveEnemyYCoordinate() {
         for (int i = 0; i < currentParsedMap.length; i++)
             for (int j = 0; j < currentParsedMap[0].length; j++)
                 if (currentParsedMap[i][j] == enemyHead) {
@@ -65,7 +61,7 @@ public class TronBot {
                 }
     }
 
-    private void retrieveEnemyXCoordinate() {
+    public void retrieveEnemyXCoordinate() {
         for (char[] chars : currentParsedMap)
             for (int j = 0; j < currentParsedMap[0].length; j++)
                 if (chars[j] == enemyHead) {
@@ -74,8 +70,15 @@ public class TronBot {
                 }
     }
 
+    void retrieveAllCoordinates() {
+        retrieveEnemyXCoordinate();
+        retrieveEnemyYCoordinate();
+        retrieveMyXCoordinate();
+        retrieveMyYCoordinate();
+    }
+
     //Check only our available moves, and decide as a mini max
-    List<String> getOurEveryAvailableMove(@NotNull char[][] map) {
+    public List<String> getOurEveryAvailableMove(@NotNull char[][] map) {
         List<String> moveList = new ArrayList<>();
 
         if (map[myYCoordinate - 1][myXCoordinate] == ' ')
@@ -154,33 +157,33 @@ public class TronBot {
         ///where you made according move
         ///assume move is correct, as this operation takes considerable amount of time in MiniMax
 
-        mapToMakeMoveOn[myYCoordinate][myXCoordinate] =
-                Character.toLowerCase(mapToMakeMoveOn[myYCoordinate][myXCoordinate]);
+        mapToMakeMoveOn[enemyYCoordinate][enemyXCoordinate] =
+                Character.toLowerCase(mapToMakeMoveOn[enemyYCoordinate][enemyXCoordinate]);
 
         switch (move) {
             case "up":
-                mapToMakeMoveOn[myYCoordinate - 1][myXCoordinate] = enemyHead;
-                myYCoordinate -= 1;
+                mapToMakeMoveOn[enemyYCoordinate - 1][enemyXCoordinate] = enemyHead;
+                enemyYCoordinate -= 1;
                 break;
             case "down":
-                mapToMakeMoveOn[myYCoordinate + 1][myXCoordinate] = enemyHead;
-                myYCoordinate += 1;
+                mapToMakeMoveOn[enemyYCoordinate + 1][enemyXCoordinate] = enemyHead;
+                enemyYCoordinate += 1;
                 break;
             case "left":
-                mapToMakeMoveOn[myYCoordinate][myXCoordinate - 1] = enemyHead;
-                myXCoordinate -= 1;
+                mapToMakeMoveOn[enemyYCoordinate][enemyXCoordinate - 1] = enemyHead;
+                enemyXCoordinate -= 1;
                 break;
             case "right":
-                mapToMakeMoveOn[myYCoordinate][myXCoordinate + 1] = enemyHead;
-                myXCoordinate += 1;
+                mapToMakeMoveOn[enemyYCoordinate][enemyXCoordinate + 1] = enemyHead;
+                enemyXCoordinate += 1;
                 break;
             default:
-                System.out.println("Error, wrong move on getMapAfterOurMove()");
+                System.out.println("Error, wrong move on getMapAfterTheirsMove()");
         }
         return mapToMakeMoveOn;
     }
 
-    char[][] getMapBeforeOurMove(@NotNull String lastMove, @NotNull char[][] mapToTakeMoveFrom) {
+    char[][] getMapBeforeOurMove(@NotNull char[][] mapToTakeMoveFrom, @NotNull String lastMove) {
         //return mapToTakeMoveFrom, for lastMove String with value either "up" or "down" or "left" or "right"
         //where you've taken back according move
         //assume move is correct, as this operation takes considerable amount of time in MiniMax
@@ -205,43 +208,46 @@ public class TronBot {
                 myXCoordinate -= 1;
                 break;
             default:
-                System.out.println("Error, wrong move on getMapAfterOurMove()");
+                System.out.println("Error, wrong move on getMapBeforeOurMove()");
         }
         return mapToTakeMoveFrom;
     }
 
-    char[][] getMapBeforeTheirsMove(@NotNull String lastMove, @NotNull char[][] mapToTakeMoveFrom) {
+    char[][] getMapBeforeTheirsMove(@NotNull char[][] mapToTakeMoveFrom, @NotNull String lastMove) {
         //return mapToTakeMoveFrom, for lastMove String with value either "up" or "down" or "left" or "right"
         //where you've taken back according move
         //assume move is correct, as this operation takes considerable amount of time in MiniMax
 
-        mapToTakeMoveFrom[myYCoordinate][myXCoordinate] = ' ';
+        mapToTakeMoveFrom[enemyYCoordinate][enemyXCoordinate] = ' ';
 
         switch (lastMove) {
             case "up":
-                mapToTakeMoveFrom[myYCoordinate + 1][myXCoordinate] = enemyHead;
-                myYCoordinate += 1;
+                mapToTakeMoveFrom[enemyYCoordinate + 1][enemyXCoordinate] = enemyHead;
+                enemyYCoordinate += 1;
                 break;
             case "down":
-                mapToTakeMoveFrom[myYCoordinate - 1][myXCoordinate] = enemyHead;
-                myYCoordinate -= 1;
+                mapToTakeMoveFrom[enemyYCoordinate - 1][enemyXCoordinate] = enemyHead;
+                enemyYCoordinate -= 1;
                 break;
             case "left":
-                mapToTakeMoveFrom[myYCoordinate][myXCoordinate + 1] = enemyHead;
-                myXCoordinate += 1;
+                mapToTakeMoveFrom[enemyYCoordinate][enemyXCoordinate + 1] = enemyHead;
+                enemyXCoordinate += 1;
                 break;
             case "right":
-                mapToTakeMoveFrom[myYCoordinate][myXCoordinate - 1] = enemyHead;
-                myXCoordinate -= 1;
+                mapToTakeMoveFrom[enemyYCoordinate][enemyXCoordinate - 1] = enemyHead;
+                enemyXCoordinate -= 1;
                 break;
             default:
-                System.out.println("Error, wrong move on getMapAfterOurMove()");
+                System.out.println("Error, wrong move on getMapAfterTheirsMove()");
         }
         return mapToTakeMoveFrom;
     }
 
     boolean isTheGameOver() {
-        return true;
+        List<String> ourMoves = getOurEveryAvailableMove(currentParsedMap);
+        List<String> theirMoves = getTheirsEveryAvailableMove(currentParsedMap);
+
+        return (ourMoves.isEmpty() || theirMoves.isEmpty());
     }
 
     int maximize(int ply, char[][] fromWhatMap) {
