@@ -31,7 +31,7 @@ class TronBotTest {
     void getOurEveryAvailableMove() {
         MiniMaxTestBot.setCurrentParsedMap(currentMap);
 
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(currentMap);
         List<String> ourMovesTrue = new ArrayList<>();
         ourMovesTrue.add("down");
         ourMovesTrue.add("right");
@@ -42,7 +42,7 @@ class TronBotTest {
     void getTheirsEveryAvailableMove() {
         MiniMaxTestBot.setCurrentParsedMap(currentMap);
 
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(currentMap);
         List<String> theirsMovesTrue = new ArrayList<>();
         theirsMovesTrue.add("up");
         theirsMovesTrue.add("left");
@@ -56,7 +56,7 @@ class TronBotTest {
     @Test
     void getMapAfterOurMove() {
         MiniMaxTestBot.setCurrentParsedMap(currentMap);
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(currentMap);
 
         char[][] mapAfterDownMove = {
                 {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
@@ -98,7 +98,7 @@ class TronBotTest {
     @Test
     void getMapAfterTheirsMove() {
         MiniMaxTestBot.setCurrentParsedMap(currentMap);
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(currentMap);
 
         char[][] mapAfterUpMove = {
                 {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
@@ -159,7 +159,7 @@ class TronBotTest {
         };
 
         MiniMaxTestBot.setCurrentParsedMap(currentMap);
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(currentMap);
 
         char[][] mapAfterDownMove = {
                 {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
@@ -201,7 +201,7 @@ class TronBotTest {
         };
 
         MiniMaxTestBot.setCurrentParsedMap(currentMap);
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(currentMap);
 
         char[][] mapAfterUpMove = {
                 {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
@@ -241,9 +241,9 @@ class TronBotTest {
 
         };
         MiniMaxTestBot.setCurrentParsedMap(overMap);
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(overMap);
 
-        Assertions.assertTrue(MiniMaxTestBot.isTheGameOver());
+        Assertions.assertTrue(MiniMaxTestBot.isTheGameOver(overMap));
 
         char[][] notOverMap = {
                 {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
@@ -261,9 +261,9 @@ class TronBotTest {
 
         };
         MiniMaxTestBot.setCurrentParsedMap(notOverMap);
-        MiniMaxTestBot.retrieveAllCoordinates();
+        MiniMaxTestBot.retrieveAllCoordinates(notOverMap);
 
-        Assertions.assertFalse(MiniMaxTestBot.isTheGameOver());
+        Assertions.assertFalse(MiniMaxTestBot.isTheGameOver(notOverMap));
     }
 
     @Test
@@ -276,5 +276,14 @@ class TronBotTest {
 
     @Test
     void whichMoveShallITake() {
+        //test if method returns a value
+        MiniMaxTestBot.setCurrentParsedMap(currentMap);
+        MiniMaxTestBot.retrieveAllCoordinates(currentMap);
+
+        String takenMove = MiniMaxTestBot.whichMoveShallITake(5, currentMap);
+
+        Assertions.assertTrue(takenMove.equals("right") || takenMove.equals("down"));
+
+        //test if it returns valid value (after evaluation)
     }
 }

@@ -1,0 +1,26 @@
+TronBot
+
+    struct myCoordinates;           OK
+    struct enemyCoordinates;        OK
+
+    char[][] mapState;              OK
+
+    enum whoseMoveItIs;             OK
+
+    fun isMoveUpPossible()          OK
+    fun isMoveDownPossible()        OK
+    fun isMoveLeftPossible()        OK
+    fun isMoveRightPossible()       OK
+
+    fun setCoordinates()            OK
+
+    fun getPossibleMoves()          OK
+    fun isTheGameOver()             OK
+
+    fun move(whatMove)
+    fun unmove(whatMove)
+
+    fun evaluation()
+    fun minimize()
+    fun maximize()
+    fun whichMoveShallITake()
