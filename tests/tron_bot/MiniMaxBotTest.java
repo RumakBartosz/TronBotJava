@@ -10,12 +10,12 @@ class MiniMaxBotTest {
     char[][] currentMap = {
             {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
             {'o', ' ', ' ', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
-            {'o', ' ', ' ', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+            {'o', ' ', 'r', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
             {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
             {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
             {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
             {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
-            {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B', ' ', 'o'},
+            {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B', 'b', 'o'},
             {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
             {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
             {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
@@ -73,7 +73,7 @@ class MiniMaxBotTest {
         Assertions.assertTrue(TestBot.isMoveRightPossible());
 
         TestBot.whoseMoveItIs = WhoseMove.ENEMY;
-        Assertions.assertTrue(TestBot.isMoveRightPossible());
+        Assertions.assertFalse(TestBot.isMoveRightPossible());
 
         //cleanup
         TestBot.whoseMoveItIs = WhoseMove.ME;
@@ -84,10 +84,9 @@ class MiniMaxBotTest {
         String[] myMoves = {"left", "right"};
         Assertions.assertArrayEquals(TestBot.getEveryPossibleMove().toArray(), myMoves);
 
-        String[] enemyMoves = {"up", "down", "left", "right"};
+        String[] enemyMoves = {"up", "down", "left"};
         TestBot.whoseMoveItIs = WhoseMove.ENEMY;
         Assertions.assertArrayEquals(TestBot.getEveryPossibleMove().toArray(), enemyMoves);
-
 
         char[][] overMap = {
                 {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
@@ -131,5 +130,93 @@ class MiniMaxBotTest {
 
         Assertions.assertTrue(gameOver.isTheGameOver());
 
+    }
+
+    @Test
+    void move() {
+
+        char[][] afterFirstMove = {
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
+                {'o', ' ', ' ', 'r', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', 'r', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B', 'b', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'}
+        };
+
+        TestBot.move("right");
+        Assertions.assertArrayEquals(TestBot.mapState, afterFirstMove);
+
+        char[][] afterSecondMove = {
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
+                {'o', ' ', ' ', 'r', 'R', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', 'r', 'r', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B', 'b', 'b', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'}
+        };
+
+        TestBot.move("left");
+        Assertions.assertArrayEquals(TestBot.mapState, afterSecondMove);
+    }
+
+    @Test
+    void unmove() {
+
+        char[][] beforeFirstMove = {
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', 'r', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B', 'b', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'}
+        };
+
+        TestBot.unmove("up");
+        Assertions.assertArrayEquals(beforeFirstMove, TestBot.mapState);
+
+        char[][] afterSecondMove = {
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', 'r', 'R', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'B', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'o'},
+                {'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o', 'o'}
+        };
+
+        TestBot.unmove("left");
+        Assertions.assertArrayEquals(afterSecondMove, TestBot.mapState);
+
+    }
+
+    @Test
+    void whichMoveShallITake() {
+        String takenMove = TestBot.whichMoveShallITake(4);
+
+        Assertions.assertTrue(takenMove.equals("left") || takenMove.equals("right"));
     }
 }

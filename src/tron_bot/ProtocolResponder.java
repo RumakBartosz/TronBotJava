@@ -8,7 +8,7 @@ public class ProtocolResponder {
     private String color;
     private MapParser mainMapParser = new MapParser();
 
-    private MoveDecider mainMoveDecider = null;
+    private MiniMaxBot mainMoveDecider = null;
 
     void respond(String message) {
 
@@ -63,11 +63,9 @@ public class ProtocolResponder {
         char[][] parsedMap = mainMapParser.parseTheMap(ySize, xSize, processedMove);
 
         if (mainMoveDecider == null)
-            mainMoveDecider = new MoveDecider(parsedMap, color);
+            mainMoveDecider = new MiniMaxBot(parsedMap, color);
 
-        mainMoveDecider.setParsedMap(parsedMap);
-
-        String chosenMove = mainMoveDecider.giveMeARandomMove();
+        String chosenMove = mainMoveDecider.whichMoveShallITake(3);
         System.out.println(chosenMove);
     }
 }

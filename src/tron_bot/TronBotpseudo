@@ -17,8 +17,8 @@ TronBot
     fun getPossibleMoves()          OK
     fun isTheGameOver()             OK
 
-    fun move(whatMove)
-    fun unmove(whatMove)
+    fun move(whatMove)              OK
+    fun unmove(whatMove)            OK
 
     fun evaluation()
     fun minimize()
