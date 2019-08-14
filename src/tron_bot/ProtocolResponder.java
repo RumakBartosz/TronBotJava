@@ -65,7 +65,8 @@ public class ProtocolResponder {
         if (mainMoveDecider == null)
             mainMoveDecider = new MiniMaxBot(parsedMap, color);
 
-        String chosenMove = mainMoveDecider.whichMoveShallITake(3);
+        mainMoveDecider.setMapState(parsedMap);
+        String chosenMove = mainMoveDecider.whichMoveShallITake(6);
         System.out.println(chosenMove);
     }
 }

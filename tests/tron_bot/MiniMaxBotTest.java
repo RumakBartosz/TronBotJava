@@ -215,8 +215,15 @@ class MiniMaxBotTest {
 
     @Test
     void whichMoveShallITake() {
-        String takenMove = TestBot.whichMoveShallITake(4);
+        //Why is it wrong at ply >= 10
+        String takenMove = TestBot.whichMoveShallITake(9);
 
+        System.out.println(takenMove);
         Assertions.assertTrue(takenMove.equals("left") || takenMove.equals("right"));
+
+//        String nextTakenMove = TestBot.whichMoveShallITake(3);
+//
+//        Assertions.assertTrue(nextTakenMove.equals("left") || nextTakenMove.equals("up")
+//                || nextTakenMove.equals("down"));
     }
 }

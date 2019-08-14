@@ -10,6 +10,11 @@ public class MiniMaxBot {
     Coordinates myCoordinates = new Coordinates();
     Coordinates enemyCoordinates = new Coordinates();
 
+    public void setMapState(char[][] mapState) {
+        this.mapState = mapState;
+        setCoordinates();
+    }
+
     char[][] mapState;
 
     WhoseMove whoseMoveItIs;
@@ -72,6 +77,7 @@ public class MiniMaxBot {
         retrieveMyYCoordinate();
     }
 
+    //bounds check probably not needed
     boolean isMoveUpPossible() {
 
         if (whoseMoveItIs.equals(WhoseMove.ME)) {
@@ -142,7 +148,7 @@ public class MiniMaxBot {
     }
 
     void move(String whatMove) {
-
+        setCoordinates();
         if (whoseMoveItIs == WhoseMove.ME) {
 
             mapState[myCoordinates.y][myCoordinates.x] =
@@ -163,7 +169,7 @@ public class MiniMaxBot {
                     break;
                 case "right":
                     mapState[myCoordinates.y][myCoordinates.x + 1] = myCoordinates.color;
-                    myCoordinates.y += 1;
+                    myCoordinates.x += 1;
                     break;
                 default:
                     System.out.println("Unknown move code at move function " + whatMove);
@@ -198,11 +204,21 @@ public class MiniMaxBot {
 
             whoseMoveItIs = WhoseMove.ME;
         }
+//        System.out.println(Arrays.deepToString(mapState));
+
+//        for(int i = 0; i < mapState.length; i++) {
+//            for(int j = 0; j < mapState[0].length; j++) {
+//                System.out.print(mapState[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
+
     }
 
     void unmove(String whatMove) {
 
-        if (whoseMoveItIs == WhoseMove.ME) {
+        if (whoseMoveItIs == WhoseMove.ENEMY) {
 
             mapState[myCoordinates.y][myCoordinates.x] = ' ';
 
@@ -228,7 +244,7 @@ public class MiniMaxBot {
                     break;
             }
 
-            whoseMoveItIs = WhoseMove.ENEMY;
+            whoseMoveItIs = WhoseMove.ME;
         } else {
             mapState[enemyCoordinates.y][enemyCoordinates.x] = ' ';
 
@@ -253,7 +269,7 @@ public class MiniMaxBot {
                     System.out.println("Unknown move code at move function " + whatMove);
             }
 
-            whoseMoveItIs = WhoseMove.ME;
+            whoseMoveItIs = WhoseMove.ENEMY;
         }
     }
 
@@ -273,9 +289,9 @@ public class MiniMaxBot {
         if (ply == 0 || isTheGameOver())
             return evaluation();
 
-        List<String> whichMovesArePossible = getEveryPossibleMove();
+        List<String> whichMovesArePossibleAtMinimize = getEveryPossibleMove();
 
-        for (String currentMove : whichMovesArePossible) {
+        for (String currentMove : whichMovesArePossibleAtMinimize) {
             move(currentMove);
             int current = maximize(ply - 1);
             unmove(currentMove);
@@ -296,9 +312,9 @@ public class MiniMaxBot {
 
         int best = -1000;
 
-        List<String> whichMovesArePossible = getEveryPossibleMove();
+        List<String> whichMovesArePossibleAtMaximize = getEveryPossibleMove();
 
-        for (String currentMove : whichMovesArePossible) {
+        for (String currentMove : whichMovesArePossibleAtMaximize) {
             move(currentMove);
             int current = minimize(ply - 1);
             unmove(currentMove);
