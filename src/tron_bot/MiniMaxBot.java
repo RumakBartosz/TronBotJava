@@ -10,7 +10,7 @@ public class MiniMaxBot {
     Coordinates myCoordinates = new Coordinates();
     Coordinates enemyCoordinates = new Coordinates();
 
-    public void setMapState(char[][] mapState) {
+    void setMapState(char[][] mapState) {
         this.mapState = mapState;
         setCoordinates();
     }
@@ -204,14 +204,13 @@ public class MiniMaxBot {
 
             whoseMoveItIs = WhoseMove.ME;
         }
-//        System.out.println(Arrays.deepToString(mapState));
 
 //        for(int i = 0; i < mapState.length; i++) {
 //            for(int j = 0; j < mapState[0].length; j++) {
 //                System.out.print(mapState[i][j] + " ");
 //            }
 //            System.out.println();
-//        }
+//       }
 //        System.out.println();
 
     }
@@ -329,10 +328,11 @@ public class MiniMaxBot {
 
 
     String whichMoveShallITake(int ply) {
-        String bestMove = "up";
         int bestValue = -1000;
 
         List<String> whichMovesArePossible = getEveryPossibleMove();
+
+        String bestMove = whichMovesArePossible.get(0);
 
         for (String move : whichMovesArePossible) {
             //makeMove from a currentMove
