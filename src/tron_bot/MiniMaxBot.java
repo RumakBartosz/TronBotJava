@@ -5,7 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MiniMaxBot {
+    static final String MOVE_UP = "up";
+    static final String MOVE_DOWN = "down";
+    static final String MOVE_LEFT = "left";
+    static final String MOVE_RIGHT = "right";
+    static final char HEAD_RED = 'R';
+    static final char HEAD_BLUE = 'B';
+    static final String ERROR_CODE = "Unknown move code at move function: ";
 
     Coordinates myCoordinates = new Coordinates();
     Coordinates enemyCoordinates = new Coordinates();
@@ -24,11 +32,11 @@ public class MiniMaxBot {
         whoseMoveItIs = WhoseMove.ME;
 
         if (color.equals("red")) {
-            myCoordinates.color = 'R';
-            enemyCoordinates.color = 'B';
+            myCoordinates.color = HEAD_RED;
+            enemyCoordinates.color = HEAD_BLUE;
         } else {
-            myCoordinates.color = 'B';
-            enemyCoordinates.color = 'R';
+            myCoordinates.color = HEAD_BLUE;
+            enemyCoordinates.color = HEAD_RED;
         }
 
         setCoordinates();
@@ -131,13 +139,13 @@ public class MiniMaxBot {
         List<String> moveList = new ArrayList<>();
 
         if (isMoveUpPossible())
-            moveList.add("up");
+            moveList.add(MOVE_UP);
         if (isMoveDownPossible())
-            moveList.add("down");
+            moveList.add(MOVE_DOWN);
         if (isMoveLeftPossible())
-            moveList.add("left");
+            moveList.add(MOVE_LEFT);
         if (isMoveRightPossible())
-            moveList.add("right");
+            moveList.add(MOVE_RIGHT);
 
         return moveList;
 
@@ -155,24 +163,24 @@ public class MiniMaxBot {
                     Character.toLowerCase(mapState[myCoordinates.y][myCoordinates.x]);
 
             switch (whatMove) {
-                case "up":
+                case MOVE_UP:
                     mapState[myCoordinates.y - 1][myCoordinates.x] = myCoordinates.color;
                     myCoordinates.y -= 1;
                     break;
-                case "down":
+                case MOVE_DOWN:
                     mapState[myCoordinates.y + 1][myCoordinates.x] = myCoordinates.color;
                     myCoordinates.y += 1;
                     break;
-                case "left":
+                case MOVE_LEFT:
                     mapState[myCoordinates.y][myCoordinates.x - 1] = myCoordinates.color;
                     myCoordinates.x -= 1;
                     break;
-                case "right":
+                case MOVE_RIGHT:
                     mapState[myCoordinates.y][myCoordinates.x + 1] = myCoordinates.color;
                     myCoordinates.x += 1;
                     break;
                 default:
-                    System.out.println("Unknown move code at move function " + whatMove);
+                    System.out.println(ERROR_CODE + whatMove);
                     break;
             }
 
@@ -182,37 +190,40 @@ public class MiniMaxBot {
                     Character.toLowerCase(mapState[enemyCoordinates.y][enemyCoordinates.x]);
 
             switch (whatMove) {
-                case "up":
+                case MOVE_UP:
                     mapState[enemyCoordinates.y - 1][enemyCoordinates.x] = enemyCoordinates.color;
                     enemyCoordinates.y -= 1;
                     break;
-                case "down":
+                case MOVE_DOWN:
                     mapState[enemyCoordinates.y + 1][enemyCoordinates.x] = enemyCoordinates.color;
                     enemyCoordinates.y += 1;
                     break;
-                case "left":
+                case MOVE_LEFT:
                     mapState[enemyCoordinates.y][enemyCoordinates.x - 1] = enemyCoordinates.color;
                     enemyCoordinates.x -= 1;
                     break;
-                case "right":
+                case MOVE_RIGHT:
                     mapState[enemyCoordinates.y][enemyCoordinates.x + 1] = enemyCoordinates.color;
                     enemyCoordinates.x += 1;
                     break;
                 default:
-                    System.out.println("Unknown move code at move function " + whatMove);
+                    System.out.println(ERROR_CODE + whatMove);
             }
 
             whoseMoveItIs = WhoseMove.ME;
         }
 
-//        for(int i = 0; i < mapState.length; i++) {
-//            for(int j = 0; j < mapState[0].length; j++) {
-//                System.out.print(mapState[i][j] + " ");
-//            }
-//            System.out.println();
-//       }
-//        System.out.println();
 
+    }
+
+    void debugPrintMap() {
+        for (char[] chars : mapState) {
+            for (int j = 0; j < mapState[0].length; j++) {
+                System.out.print(chars[j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     void unmove(String whatMove) {
@@ -222,24 +233,24 @@ public class MiniMaxBot {
             mapState[myCoordinates.y][myCoordinates.x] = ' ';
 
             switch (whatMove) {
-                case "up":
+                case MOVE_UP:
                     mapState[myCoordinates.y + 1][myCoordinates.x] = myCoordinates.color;
                     myCoordinates.y += 1;
                     break;
-                case "down":
+                case MOVE_DOWN:
                     mapState[myCoordinates.y - 1][myCoordinates.x] = myCoordinates.color;
                     myCoordinates.y -= 1;
                     break;
-                case "left":
+                case MOVE_LEFT:
                     mapState[myCoordinates.y][myCoordinates.x + 1] = myCoordinates.color;
                     myCoordinates.x += 1;
                     break;
-                case "right":
+                case MOVE_RIGHT:
                     mapState[myCoordinates.y][myCoordinates.x - 1] = myCoordinates.color;
                     myCoordinates.x -= 1;
                     break;
                 default:
-                    System.out.println("Unknown move code at move function " + whatMove);
+                    System.out.println(ERROR_CODE + whatMove);
                     break;
             }
 
@@ -248,24 +259,24 @@ public class MiniMaxBot {
             mapState[enemyCoordinates.y][enemyCoordinates.x] = ' ';
 
             switch (whatMove) {
-                case "up":
+                case MOVE_UP:
                     mapState[enemyCoordinates.y + 1][enemyCoordinates.x] = enemyCoordinates.color;
                     enemyCoordinates.y += 1;
                     break;
-                case "down":
+                case MOVE_DOWN:
                     mapState[enemyCoordinates.y - 1][enemyCoordinates.x] = enemyCoordinates.color;
                     enemyCoordinates.y -= 1;
                     break;
-                case "left":
+                case MOVE_LEFT:
                     mapState[enemyCoordinates.y][enemyCoordinates.x + 1] = enemyCoordinates.color;
                     enemyCoordinates.x += 1;
                     break;
-                case "right":
+                case MOVE_RIGHT:
                     mapState[enemyCoordinates.y][enemyCoordinates.x - 1] = enemyCoordinates.color;
                     enemyCoordinates.x -= 1;
                     break;
                 default:
-                    System.out.println("Unknown move code at move function " + whatMove);
+                    System.out.println(ERROR_CODE + whatMove);
             }
 
             whoseMoveItIs = WhoseMove.ENEMY;
@@ -274,15 +285,13 @@ public class MiniMaxBot {
 
     int evaluation() {
         if (isTheGameOver())
-            return -1000;
+            return whoseMoveItIs == WhoseMove.ME ? -1000 : 1000;
         else
             return 0;
     }
 
 
     int minimize(int ply) {
-        ///function returns worst value of an evaluation in the game tree
-        ///of ply depth
         int worst = 1000;
 
         if (ply == 0 || isTheGameOver())
@@ -304,8 +313,6 @@ public class MiniMaxBot {
 
 
     int maximize(int ply) {
-        ///function returns best value of an evaluation in the game tree
-        ///of ply depth
         if (ply == 0 || isTheGameOver())
             return evaluation();
 
@@ -335,11 +342,6 @@ public class MiniMaxBot {
         String bestMove = whichMovesArePossible.get(0);
 
         for (String move : whichMovesArePossible) {
-            //makeMove from a currentMove
-            //maximize(ply)
-            //takeBackMove from a currentMove
-            //if maximize(ply) better than move, change value of bestValue
-            //  and move = bestMove
             int current = -1001;
 
 
@@ -356,5 +358,31 @@ public class MiniMaxBot {
             }
         }
         return bestMove;
+    }
+
+
+    //This is O(n^2), could be O(n log n)
+    //add tests
+    //m = my Tron is closer, e = enemy is closer
+    char[][] getVoronoiDiagram() {
+        char[][] voronoi = new char[mapState.length][mapState[0].length];
+        for (int i = 0; i < mapState.length; i++)
+            for (int j = 0; j < mapState[0].length; j++)
+                if (amICloserToThisPlace(i, j)) {
+                    voronoi[i][j] = 'm';
+                } else {
+                    voronoi[i][j] = 'e';
+                }
+
+        return voronoi;
+    }
+
+    boolean amICloserToThisPlace(int x, int y) {
+        double myDistance = Math.sqrt(Math.pow((double) x - myCoordinates.x, 2) +
+                Math.pow((double) y - myCoordinates.y, 2));
+        double enemyDistance = Math.sqrt(Math.pow((double) x - enemyCoordinates.y, 2) +
+                Math.pow((double) y - enemyCoordinates.y, 2));
+
+        return myDistance < enemyDistance;
     }
 }

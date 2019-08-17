@@ -219,8 +219,6 @@ class MiniMaxBotTest {
 
         Assertions.assertTrue(takenMove.equals("left") || takenMove.equals("right"));
 
-
-        //why is it returning wrong move for ply >= 10
         String nextTakenMove = TestBot.whichMoveShallITake(10);
 
         Assertions.assertTrue(nextTakenMove.equals("left") || nextTakenMove.equals("up")
