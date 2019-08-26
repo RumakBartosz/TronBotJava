@@ -216,9 +216,9 @@ public class MiniMaxBot {
 
     }
 
-    void debugPrintMap() {
-        for (char[] chars : mapState) {
-            for (int j = 0; j < mapState[0].length; j++) {
+    void debugPrintMap(@NotNull char[][] map) {
+        for (char[] chars : map) {
+            for (int j = 0; j < map[0].length; j++) {
                 System.out.print(chars[j] + " ");
             }
             System.out.println();
@@ -373,8 +373,22 @@ public class MiniMaxBot {
                 } else {
                     voronoi[i][j] = 'e';
                 }
-
         return voronoi;
+    }
+
+    int getMyReachAmount() {
+        int numberOfPlacesICanReach = 0;
+        char[][] voronoiState = getVoronoiDiagram();
+        for (int i = 0; i < voronoiState.length; i++)
+            for (int j = 0; j < voronoiState[0].length; j++)
+                if (voronoiState[i][j] == 'm') {
+                    numberOfPlacesICanReach++;
+                }
+        return numberOfPlacesICanReach;
+    }
+
+    int getEnemyReachAmount() {
+        return mapState.length * mapState[0].length - getMyReachAmount();
     }
 
     boolean amICloserToThisPlace(int x, int y) {
@@ -383,6 +397,6 @@ public class MiniMaxBot {
         double enemyDistance = Math.sqrt(Math.pow((double) x - enemyCoordinates.y, 2) +
                 Math.pow((double) y - enemyCoordinates.y, 2));
 
-        return myDistance < enemyDistance;
+        return myDistance <= enemyDistance;
     }
 }

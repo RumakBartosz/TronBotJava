@@ -224,4 +224,42 @@ class MiniMaxBotTest {
         Assertions.assertTrue(nextTakenMove.equals("left") || nextTakenMove.equals("up")
                 || nextTakenMove.equals("down"));
     }
+
+    @Test
+    void getVoronoiDiagram() {
+        char[][] voronoi = TestBot.getVoronoiDiagram();
+
+
+        char[][] assumedCorrectVoronoi = {
+                {'m', 'm', 'm', 'm', 'm', 'm', 'm', 'm', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'm', 'm', 'm', 'm', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'm', 'm', 'm', 'm', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'm', 'm', 'm', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'm', 'm', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'm', 'm', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'm', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'm', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'm', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'},
+                {'m', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e', 'e'}
+        };
+
+        Assertions.assertArrayEquals(assumedCorrectVoronoi, voronoi);
+    }
+
+
+    @Test
+    void getMyReachAmount() {
+        int assumedCountOfReach = TestBot.getMyReachAmount();
+
+        Assertions.assertEquals(51, assumedCountOfReach);
+    }
+
+    @Test
+    void getEnemyReachAmount() {
+        int assumedCountOfReach = TestBot.getEnemyReachAmount();
+
+        Assertions.assertEquals(93, assumedCountOfReach);
+    }
 }
